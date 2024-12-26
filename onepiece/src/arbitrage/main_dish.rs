@@ -1,8 +1,6 @@
 use alloy::{
-    primitives::{utils::parse_ether, Address, Bytes, TxHash, I256, U128, U256, U64},
+    primitives::{TxHash, I256, U256},
     providers::Provider,
-    rpc::types::eth::{Block, Log, Transaction},
-    rpc::types::trace::parity::TraceType,
 };
 use anyhow::Result;
 use bounded_vec_deque::BoundedVecDeque;
@@ -14,8 +12,8 @@ use crate::arbitrage::types::ActionEvent;
 use crate::arbitrage::types::BackrunAction;
 use crate::arbitrage::types::PendingTxInfo;
 use crate::arbitrage::types::{NewBlock, One, Piece};
-use crate::simulation::simulator::{Simulator, SimulatorFactory, Tx, TxResult, VictimTx};
-use tokio::sync::broadcast::{self, Sender};
+use crate::simulation::simulator::SimulatorFactory;
+use tokio::sync::broadcast::{Sender};
 
 pub struct Ingredients {
     pub tx_hash: TxHash,

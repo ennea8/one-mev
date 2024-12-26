@@ -5,14 +5,13 @@ use revm::{
 
 // use std::collections::BTreeMap;
 use alloy::{
-    primitives::{Address, Bytes, B256, U256},
-    rpc::types::{AccessList, AccessListItem, Header, Transaction, TransactionRequest},
+    primitives::{Address, B256, U256},
+    rpc::types::{AccessList, AccessListItem, TransactionRequest},
 };
-use eyre::{eyre, OptionExt, Result};
+use eyre::{eyre, Result};
 use lazy_static::lazy_static;
-use revm::interpreter::Host;
-use revm::primitives::{Account, BlockEnv, Env, ExecutionResult, Output, ResultAndState, TransactTo, TxEnv, SHANGHAI};
-use revm::{Database, DatabaseCommit, DatabaseRef, Evm};
+use revm::primitives::{Env, ExecutionResult, TransactTo, SHANGHAI};
+use revm::{Database, DatabaseRef, Evm};
 use std::convert::Infallible;
 
 pub fn get_precompiles_for(spec_id: SpecId) -> Vec<Address> {

@@ -1,40 +1,29 @@
-use anyhow::{anyhow, ensure, Result};
-use std::{cell::RefCell, collections::HashMap, str::FromStr, sync::Arc};
+use anyhow::{anyhow, Result};
+use std::sync::Arc;
 
 // alloy
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::{utils::parse_ether, Address, BlockNumber, TxHash, B256, I256, U128, U256, U64},
-    providers::{Provider, ProviderBuilder, ReqwestProvider, RootProvider},
+    primitives::{utils::parse_ether, I256, U256},
+    providers::{Provider, RootProvider},
     pubsub::PubSubFrontend,
-    rpc::types::eth::{Block, Log, Transaction},
-    signers::local::PrivateKeySigner,
-    sol_types::{sol, SolCall, SolValue},
-    transports::ws::WsConnect,
+    sol_types::{SolCall, SolValue},
 };
 
 //revm
 use revm::{
     db::{CacheDB, EmptyDB},
-    interpreter::Host,
     primitives::{
-        address, keccak256, AccessList, AccessListItem, AccountInfo, Bytecode, Bytes, ExecutionResult, Output, SpecId, TransactTo,
-    },
-    Database, DatabaseRef, Evm, Inspector,
+        Bytecode, Bytes,
+    }, Inspector,
 };
 
 // use one_evm::types::{Tx, TxResult};
-use one_evm::{abis, config::cache_dir, database_error::DatabaseError, fork_db::ForkDB, fork_factory::ForkFactory};
 
-use lazy_static::lazy_static;
 
-use std::path::{Path, PathBuf};
-use std::sync::RwLock;
 
 use crate::abi::IOne;
-use crate::inspector::access_list::AccessListInspector;
 
-use crate::simulation::simulator::{Simulator, SimulatorFactory, Tx, TxResult};
+use crate::simulation::simulator::{Simulator, SimulatorFactory, Tx};
 use one_common::create_default_wss_provider;
 
 use crate::arbitrage::config::constants::{OWNER_ADDRESS, REVM_ONE_ADDRESS, REVM_ONE_SIMULATOR_ADDRESS};
@@ -167,7 +156,7 @@ impl<'a, EXT> Simulator<'a, EXT> {
 
         let calldata_swap_in = Bytes::from(IOne::simulateSwapInCall { paramsArray }.abi_encode());
 
-        let mut tx = Tx {
+        let tx = Tx {
             caller: *OWNER_ADDRESS,
             transact_to: *REVM_ONE_SIMULATOR_ADDRESS,
             data: calldata_swap_in,
@@ -220,7 +209,7 @@ impl<'a, EXT> Simulator<'a, EXT> {
         };
 
         // let (amount_out) = <(U256)>::abi_decode(&back_result.output, false)?;
-        let amount_out = match <(U256)>::abi_decode(&back_result.output, false) {
+        let amount_out = match <U256>::abi_decode(&back_result.output, false) {
             Ok(amount) => amount,
             Err(err) => return Err(anyhow!("Failed to decode output: {:?}", err)),
         };
@@ -252,7 +241,7 @@ impl<'a, EXT> Simulator<'a, EXT> {
             IOne::arbitrageCall { pathArrayData: pathArrayData.clone(), baseToken: first_swap.tokenIn, requireProfit: false }.abi_encode(),
         );
 
-        let mut tx = Tx {
+        let tx = Tx {
             caller: *OWNER_ADDRESS,
             transact_to: *REVM_ONE_ADDRESS,
             data: calldata_arbitrage.clone(),
@@ -315,7 +304,7 @@ impl<'a, EXT> Simulator<'a, EXT> {
                 .abi_encode(),
         );
 
-        let mut tx = Tx {
+        let tx = Tx {
             caller: *OWNER_ADDRESS,
             transact_to: *REVM_ONE_ADDRESS,
             data: calldata_arbitrage.clone(),
@@ -382,15 +371,15 @@ pub fn create_evm_factory(provider: Arc<RootProvider<PubSubFrontend>>, block_num
 
 
 mod tests {
-    use serde_json;
-    use std::ops::Add;
+    
+    
 
-    use super::*;
-    use crate::arbitrage::config::constants::ethereum::weth_addr;
-    use crate::common::bytecode::ONE_BYTECODE;
-    use crate::common::bytecode::ONE_SIMULATOR_BYTECODE; // 模拟版本 // 线上版本
+    
+    
+    
+     // 模拟版本 // 线上版本
 
-    use one_common::{init_logs, measure_end, measure_start};
+    
 
     #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
     async fn test_sim_arbi_onebot_simulateArbitrageMulti() -> Result<()> {
@@ -963,7 +952,7 @@ mod tests {
         evm_factory.deploy(*REVM_ONE_SIMULATOR_ADDRESS, Bytecode::new_raw(ONE_SIMULATOR_BYTECODE.clone()));
         evm_factory.set_token_balance(weth_addr(), *REVM_ONE_SIMULATOR_ADDRESS, U256::from(3), U256::from(parse_ether("100").unwrap()));
 
-        let mut sim = evm_factory.new_fork_simulator(false);
+        let sim = evm_factory.new_fork_simulator(false);
 
         let WETH = Address::from_str("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").unwrap();
         let EBULL = Address::from_str("0x71297312753EA7A2570a5a3278eD70D9a75F4f44").unwrap();

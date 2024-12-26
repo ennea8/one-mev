@@ -1,34 +1,25 @@
 use alloy_provider::WalletProvider;
 use anyhow::Result;
-use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use std::str::FromStr;
-use std::sync::Arc;
-use url::Url;
 
 use alloy::{
-    consensus::{SignableTransaction, TxEip1559, TxEnvelope, TypedTransaction},
-    eips::{BlockId, BlockNumberOrTag},
-    network::{eip2718::Encodable2718, Ethereum, EthereumWallet, Network, NetworkWallet, TransactionBuilder},
-    primitives::{utils::parse_ether, Address, BlockNumber, Bytes, TxHash, TxKind, U128, U256, U64},
+    consensus::{TxEip1559, TxEnvelope, TypedTransaction},
+    eips::BlockId,
+    network::{eip2718::Encodable2718, Ethereum, EthereumWallet, NetworkWallet, TransactionBuilder},
+    primitives::{Address, Bytes, TxKind, U256},
     providers::{
         fillers::{ChainIdFiller, FillProvider, GasFiller, JoinFill, NonceFiller, WalletFiller},
         Identity, Provider, ProviderBuilder, ReqwestProvider, RootProvider,
     },
-    pubsub::PubSubFrontend,
     rpc::types::{
-        eth::{AccessList, Block, Log, Transaction, TransactionRequest},
-        mev::{EthCallBundle, EthSendBundle},
+        eth::{AccessList, Transaction},
+        mev::EthCallBundle,
     },
-    signers::{local::PrivateKeySigner, Signer, SignerSync},
-    transports::http::{self, Client, Http},
-    transports::ws::WsConnect,
+    signers::Signer,
+    transports::http::{Client, Http},
 };
 
-use crate::abi;
 use crate::common::config::get_global_config;
-use one_common::create_default_http_provider;
-use one_flashbots::{BundleSigner, Endpoints, EthMevProviderExt, MevHttp};
+use one_flashbots::{BundleSigner, Endpoints, EthMevProviderExt};
 
 // use reqwest;
 

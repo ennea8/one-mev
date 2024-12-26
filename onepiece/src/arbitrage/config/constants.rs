@@ -1,4 +1,4 @@
-use alloy::primitives::{address, Address, U128, U256, U64};
+use alloy::primitives::{address, Address};
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -22,7 +22,7 @@ lazy_static! {
 
 pub mod ethereum {
     use lazy_static::lazy_static;
-    use revm::primitives::{address, Address, Bytes, U256};
+    use revm::primitives::{address, Address};
 
     pub fn weth_addr() -> Address {
         address!("c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")

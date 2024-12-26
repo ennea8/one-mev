@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use crate::arbitrage::types::NewBlock;
 use crate::arbitrage::types::Piece;
-use crate::simulation::simulator::{Simulator, SimulatorFactory, Tx, TxResult, VictimTx};
+use crate::simulation::simulator::{SimulatorFactory, Tx};
 use alloy::primitives::{utils::parse_ether, I256, U256};
 
 impl Piece {

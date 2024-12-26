@@ -1,62 +1,39 @@
 #[macro_use]
 extern crate tracing;
 
-use anyhow::{anyhow, ensure, Result};
-use std::{cell::RefCell, collections::HashMap, str::FromStr, sync::Arc};
+use anyhow::{anyhow, Result};
+use std::sync::Arc;
 
 // alloy
 use alloy::{
-    consensus::{SignableTransaction, TxEip1559, TxEnvelope, TypedTransaction},
-    eips::{BlockId, BlockNumberOrTag},
-    network::{eip2718::Encodable2718, Ethereum, EthereumWallet, Network, NetworkWallet, TransactionBuilder},
-    primitives::{hex_literal::hex, utils::parse_ether, Address, BlockNumber, TxHash, B256, I256, U128, U256, U64},
-    providers::{Provider, ProviderBuilder, ReqwestProvider, RootProvider},
-    pubsub::PubSubFrontend,
-    rpc::types::{
-        eth::{AccessList, Block, Log, Transaction, TransactionRequest},
-        mev::{EthCallBundle, EthSendBundle},
-    },
-    signers::{local::PrivateKeySigner, Signer, SignerSync},
-    sol_types::{sol, SolCall, SolValue},
-    transports::ws::WsConnect,
+    network::{Ethereum, EthereumWallet, NetworkWallet, TransactionBuilder},
+    primitives::{utils::parse_ether, U256},
+    providers::Provider,
+    rpc::types::eth::Transaction,
+    signers::Signer,
+    sol_types::SolCall,
 };
 //revm
 use revm::{
     db::{CacheDB, EmptyDB},
-    interpreter::Host,
     primitives::{
         address,
-        keccak256,
-        AccountInfo,
-        Bytecode,
-        Bytes,
-        ExecutionResult,
-        Output,
-        SpecId,
-        TransactTo, // AccessList, AccessListItem,
+        Bytecode, // AccessList, AccessListItem,
     },
-    Database, DatabaseRef, Evm, Inspector,
 };
 
 // use one_evm::types::{Tx, TxResult};
-use one_evm::{abis, config::cache_dir, database_error::DatabaseError, fork_db::ForkDB, fork_factory::ForkFactory};
 
-use lazy_static::lazy_static;
 
-use std::path::{Path, PathBuf};
-use std::sync::RwLock;
 
 use one_common::create_default_wss_provider;
 use one_common::init_logs;
 
 use onepiece::abi::IOne;
-use onepiece::inspector::access_list::AccessListInspector;
-use onepiece::simulation::simulator::{Simulator, SimulatorFactory, Tx, TxResult, VictimTx};
+use onepiece::simulation::simulator::{SimulatorFactory, VictimTx};
 
 use onepiece::arbitrage::config::constants::ethereum::weth_addr;
 use onepiece::arbitrage::config::constants::{OWNER_ADDRESS, REVM_ONE_ADDRESS, REVM_ONE_SIMULATOR_ADDRESS};
-use onepiece::arbitrage::execution::Executor;
-use onepiece::arbitrage::simulation::create_simulator_factory;
 use onepiece::arbitrage::types::NewBlock;
 use onepiece::common::bytecode::{ONE_BYTECODE, ONE_SIMULATOR_BYTECODE};
 use onepiece::common::config::{get_global_config, init_global_config};
@@ -168,7 +145,7 @@ async fn test_one001_simulate() -> Result<()> {
     let new_block = NewBlock { block_number: base_block_number, base_fee, next_base_fee };
 
     let swap_paths = vec![pathArray];
-    let mut victim_tx = VictimTx::from_transaction(pending_tx.clone());
+    let victim_tx = VictimTx::from_transaction(pending_tx.clone());
 
     let the_arbi = match sim.find_profitable_path_and_opt_amount(swap_paths) {
         Ok(Some(result)) => result,

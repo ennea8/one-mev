@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use alloy_primitives::{Address, Bytes, B256, U256};
+use alloy_primitives::Bytes;
 use std::str::FromStr;
 
 // Request.sol

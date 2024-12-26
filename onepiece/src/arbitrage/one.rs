@@ -3,10 +3,8 @@ use std::collections::HashSet;
 use std::sync::Arc;
 
 use alloy::primitives::{Bytes, TxHash, I256, U256};
-use alloy::rpc::types::eth::Transaction;
 
-use crate::abi::IOne;
-use crate::arbitrage::types::{Arbitrage, NewBlock, One, Piece};
+use crate::arbitrage::types::{Arbitrage, NewBlock, One};
 use crate::simulation::simulator::{SimulatorFactory, Tx, VictimTx};
 
 #[derive(Debug)]

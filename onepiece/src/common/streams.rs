@@ -1,22 +1,15 @@
 use anyhow::Result;
-use serde::{Deserialize, Serialize};
-use serde_json::{from_value, Value};
-use std::hash::{Hash, Hasher};
 use std::sync::Arc;
-use std::{error, fs};
 
 use futures_util::StreamExt;
 use tokio::sync::broadcast::Sender;
 
 use alloy::pubsub::PubSubFrontend;
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::{Address, U128, U256, U64},
+    primitives::U256,
     providers::Provider,
-    rpc::types::eth::{Block, Filter, Log, Transaction},
 };
 use alloy_provider::RootProvider;
-use alloy_transport_ws::WsConnect;
 
 use crate::common::types::{Event, NewBlock, NewPendingTx};
 use crate::utils::calculate_next_block_base_fee;

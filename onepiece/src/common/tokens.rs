@@ -1,20 +1,15 @@
 use anyhow::Result;
-use serde::de;
-use std::{collections::HashMap, fs::OpenOptions, path::Path, str::FromStr, sync::Arc};
+use std::{collections::HashMap, sync::Arc};
 
 use alloy::{
-    primitives::{address, keccak256, Address, Bytes, FixedBytes, U128, U256, U64, U8},
-    providers::{Provider, ProviderBuilder, ReqwestProvider, RootProvider},
+    primitives::{Address, U256, U64},
+    providers::{Provider, RootProvider},
     pubsub::PubSubFrontend,
-    rpc::types::eth::{
-        state::{AccountOverride, StateOverride},
-        transaction::{TransactionInput, TransactionRequest},
-        Block, Log, Transaction,
-    },
+    rpc::types::eth::state::{AccountOverride, StateOverride},
     // errors::Error,
 };
 use alloy_signer_local::PrivateKeySigner;
-use alloy_sol_types::{sol, sol_data::String as SolString, SolCall, SolStruct, SolType, SolValue};
+use alloy_sol_types::{sol, SolCall, SolValue};
 
 use crate::abi;
 use crate::common::bytecode;
@@ -112,10 +107,7 @@ mod tests {
     use alloy_primitives::utils::parse_ether;
     use one_common::{create_default_wss_provider, init_logs};
 
-    use alloy_sol_types::{
-        sol_data::{String as SolString, Uint},
-        SolType,
-    };
+    use alloy_sol_types::SolType;
 
     #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
     async fn test_tokens_get_info() -> Result<()> {

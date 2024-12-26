@@ -1,39 +1,32 @@
 use alloy_provider::WalletProvider;
 use anyhow::Result;
-use serde::{Deserialize, Serialize};
-use std::str::FromStr;
 use std::sync::Arc;
-use std::{collections::HashMap, ops::Add};
-use url::Url;
 
 use alloy::{
-    consensus::{SignableTransaction, TxEip1559, TxEnvelope, TypedTransaction},
+    consensus::{TxEip1559, TxEnvelope, TypedTransaction},
     eips::{BlockId, BlockNumberOrTag},
     network::{
-        eip2718::Encodable2718, Ethereum, EthereumWallet, Network, NetworkWallet,
+        eip2718::Encodable2718, Ethereum, EthereumWallet, NetworkWallet,
         TransactionBuilder,
     },
     primitives::{
-        utils::parse_ether, Address, BlockNumber, Bytes, TxHash, TxKind, U128, U256, U64,
+        Address, Bytes, TxHash, TxKind, U256,
     },
     providers::{
         fillers::{ChainIdFiller, FillProvider, GasFiller, JoinFill, NonceFiller, WalletFiller},
-        Identity, Provider, ProviderBuilder, ReqwestProvider, RootProvider,
+        Identity, Provider, ProviderBuilder, RootProvider,
     },
     pubsub::PubSubFrontend,
     rpc::types::{
-        eth::{AccessList, Block, Log, Transaction, TransactionRequest},
+        eth::{AccessList, Transaction},
         mev::{EthCallBundle, EthSendBundle},
     },
-    signers::{local::PrivateKeySigner, Signer, SignerSync},
-    transports::http::{self, Client, Http},
-    transports::ws::WsConnect,
+    signers::Signer,
+    transports::http::{Client, Http},
 };
 
-use crate::abi;
 use crate::common::config::get_global_config;
-use one_common::create_default_http_provider;
-use one_flashbots::{BundleSigner, Endpoints, EthMevProviderExt, MevHttp};
+use one_flashbots::{BundleSigner, Endpoints, EthMevProviderExt};
 
 use crate::utils::log_info_to_file;
 use alloy::rpc::json_rpc::RpcError;
@@ -290,22 +283,15 @@ impl Executor {
 }
 
 mod tests {
-    use super::*;
+    
 
-    use alloy::{
-        hex,
-        network::EthereumWallet,
-        providers::ProviderBuilder,
-        rpc::types::{mev::EthCallBundle, BlockNumberOrTag},
-        signers::local::PrivateKeySigner,
-        sol_types::{sol, SolCall, SolValue},
-    };
+    
 
-    use crate::common::config::{get_global_config, init_global_config};
-    use dotenv::dotenv;
-    use one_common::init_logs;
+    
+    
+    
 
-    use crate::abi::IOne;
+    
 
     #[tokio::test]
     async fn test_execute_call_eth_bundle() -> Result<()> {
@@ -369,15 +355,9 @@ mod tests {
         use crate::common::bytecode::ONE_BYTECODE;
         use crate::common::bytecode::ONE_SIMULATOR_BYTECODE;
         use one_common::create_default_wss_provider;
-        use revm::{
-            db::{CacheDB, EmptyDB},
-            interpreter::Host,
-            primitives::{
-                address, keccak256, AccessList, AccessListItem, AccountInfo, Bytecode, Bytes,
-                ExecutionResult, Output, SpecId, TransactTo,
-            },
-            Database, DatabaseRef, Evm, Inspector,
-        };
+        use revm::primitives::{
+                Bytecode, Bytes,
+            };
 
         std::env::set_var("KEYSTORE_PATH", "../.keystore");
         init_logs();

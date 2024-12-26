@@ -1,16 +1,15 @@
-use anyhow::{anyhow, ensure, Result};
-use std::{cell::RefCell, collections::HashMap, str::FromStr, sync::Arc};
+use anyhow::{anyhow, Result};
+use std::{str::FromStr, sync::Arc};
 
 // alloy
 use alloy::{
     eips::{BlockId, BlockNumberOrTag},
-    primitives::{utils::parse_ether, Address, BlockNumber, TxHash, B256, U128, U256, U64},
-    providers::{Provider, ProviderBuilder, ReqwestProvider, RootProvider},
+    primitives::{Address, TxHash, B256, U256},
+    providers::{Provider, RootProvider},
     pubsub::PubSubFrontend,
-    rpc::types::eth::{Block, Log, Transaction},
+    rpc::types::eth::{Log, Transaction},
     signers::local::PrivateKeySigner,
     sol_types::{sol, SolCall, SolValue},
-    transports::ws::WsConnect,
 };
 
 //revm
@@ -18,21 +17,18 @@ use revm::{
     db::{CacheDB, EmptyDB},
     interpreter::Host,
     primitives::{
-        address, keccak256, AccessList, AccessListItem, AccountInfo, Bytecode, Bytes, ExecutionResult, Output, SpecId, TransactTo,
+        address, keccak256, AccountInfo, Bytecode, Bytes, ExecutionResult, Output, SpecId, TransactTo,
     },
-    Database, DatabaseRef, Evm, Inspector,
+    Database, Evm,
 };
 
 // use one_evm::types::{Tx, TxResult};
-use one_evm::{abis, config::cache_dir, database_error::DatabaseError, fork_db::ForkDB, fork_factory::ForkFactory, types::AsU64};
+use one_evm::{database_error::DatabaseError, fork_db::ForkDB, fork_factory::ForkFactory};
 
-use alloy_primitives::I256;
-use lazy_static::lazy_static;
 
 use crate::abi;
 use crate::inspector::access_list::AccessListInspector;
 
-use std::path::{Path, PathBuf};
 use std::sync::RwLock;
 
 // hardcoded for testing // TODO use config
@@ -242,14 +238,14 @@ impl SimulatorFactory {
         // let cfg = revm::primitives::EnvWithHandlerCfg::new(env.clone(), handler_cfg);
 
         // inspector
-        let mut inspector = AccessListInspector::default();
+        let inspector = AccessListInspector::default();
 
         // new_evm_with_inspector
         let context = revm::Context::new(revm::EvmContext::new_with_env(fork_db, env), inspector);
         let mut handler = revm::Handler::new(handler_cfg);
         handler.append_handler_register_plain(revm::inspector_handle_register);
 
-        let mut evm = revm::Evm::new(context, handler);
+        let evm = revm::Evm::new(context, handler);
 
         let owner = PrivateKeySigner::random(); // TODO use config
 
@@ -602,13 +598,13 @@ pub fn convert_usdc_to_weth(simulator: &mut Simulator<'_, ()>, amount: U256) -> 
 }
 
 mod tests {
-    use crate::inspector::access_list;
-    use serde_json;
+    
+    
 
 
     use super::*;
     use anyhow::Ok;
-    use one_common::{create_default_wss_provider, init_logs};
+    use one_common::create_default_wss_provider;
 
     async fn create_simulator_factory() -> Result<Arc<SimulatorFactory>> {
         let provider = create_default_wss_provider().await.unwrap();
@@ -844,7 +840,7 @@ mod tests {
     async fn test_convert_usdt_to_native() -> Result<()> {
         init_logs();
 
-        use crate::common::constants::*;
+        
 
         let provider = create_default_wss_provider().await?;
         let block_number = provider.get_block_number().await?;

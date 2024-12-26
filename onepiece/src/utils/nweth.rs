@@ -1,4 +1,4 @@
-use alloy::primitives::{address, Address, U256};
+use alloy::primitives::{Address, U256};
 use std::ops::{Add, Mul};
 use std::str::FromStr;
 

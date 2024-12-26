@@ -1,29 +1,27 @@
 use alloy_sol_types::SolEvent;
 use anyhow::{anyhow, Result};
 use dashmap::DashMap;
-use serde::{Deserialize, Serialize};
 use std::fs;
-use std::{cell::RefCell, collections::HashSet, str::FromStr, sync::Arc};
+use std::{collections::HashSet, sync::Arc};
 
 use alloy::pubsub::PubSubFrontend;
 use alloy::rpc::types::trace::geth::{
-    BlockTraceResult, CallConfig, CallFrame, CallLogFrame, GethDebugBuiltInTracerType, GethDebugTracerConfig, GethDebugTracerType,
-    GethDebugTracingCallOptions, GethDebugTracingOptions, GethTrace, TraceResult,
+    CallConfig, CallFrame, CallLogFrame, GethDebugBuiltInTracerType, GethDebugTracerType,
+    GethDebugTracingCallOptions, GethTrace,
 };
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::{Address, I256, U128, U256, U64},
+    primitives::{Address, I256, U256},
     providers::{Provider, RootProvider},
-    rpc::types::eth::{Block, Transaction},
+    rpc::types::eth::Transaction,
     rpc::types::trace::parity::TraceType,
-    sol_types::{sol, SolCall, SolValue},
+    sol_types::SolCall,
 };
 use alloy_provider::ext::DebugApi;
 use alloy_provider::ext::TraceApi;
 
 use crate::abi::IOne;
 use crate::arbitrage::config::constants::ethereum::weth_addr;
-use crate::arbitrage::types::{NewBlock, NewPendingTx};
+use crate::arbitrage::types::NewBlock;
 
 use crate::arbitrage::types::{DexVariant, Pool, SwapDirection, SwapInfo};
 
@@ -362,8 +360,8 @@ pub fn load_pools() -> Result<PoolManager> {
 }
 
 mod tests {
-    use super::*;
-    use one_common::{init_logs, measure_end, measure_start};
+    
+    
 
     #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
     async fn test_arbi_pools_load() -> Result<()> {

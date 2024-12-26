@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use one_common::custom_logger::*;
 use tracing::Level;
-use tracing_appender::non_blocking::{NonBlocking, WorkerGuard};
+use tracing_appender::non_blocking::WorkerGuard;
 
 lazy_static! {
     pub static ref GLOBAL_LOGGER: (CustomLogger, WorkerGuard) = CustomLogger::new(".logs", "customize.log");
@@ -11,7 +11,7 @@ pub async fn log_info_to_file(msg: &str) {
 }
 
 mod tests {
-    use super::*;
+    
 
     #[tokio::test]
     async fn test_log_info_to_file() {

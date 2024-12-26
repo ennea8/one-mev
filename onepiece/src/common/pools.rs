@@ -1,16 +1,13 @@
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use std::fs;
-use std::{collections::HashMap, str::FromStr, sync::Arc};
+use std::collections::HashMap;
 
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::{Address, U128, U256, U64},
+    primitives::Address,
     providers::Provider,
-    rpc::types::eth::{Block, Filter, Log, Transaction},
 };
 use dashmap::DashMap;
 use serde::{Deserialize, Serialize};
-use serde_json::{from_value, Value};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum DexVariant {
@@ -87,8 +84,8 @@ pub fn load_all_pools_hashmap() -> Result<HashMap<Address, PoolTouchedInfo>> {
 }
 
 mod tests {
-    use super::*;
-    use one_common::{init_logs, print_banner};
+    
+    
 
     #[test]
     fn test_load_all_pools() {

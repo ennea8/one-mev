@@ -1,5 +1,4 @@
-use alloy::primitives::{Address, Bytes, TxHash, U128, U256, U64};
-use hex;
+use alloy::primitives::{Address, U256};
 
 pub struct TakeLastXBytes(pub usize);
 

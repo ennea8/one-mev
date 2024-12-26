@@ -1,12 +1,7 @@
-use anyhow::Result;
 
 use crate::common::constants::*;
-use alloy::{
-    primitives::{Address, Bytes, TxHash, U128, U256, U64},
-    rpc::types::eth::{Transaction, TransactionRequest},
-};
+use alloy::primitives::{Address, U256};
 use alloy_signer_local::PrivateKeySigner;
-use rand::Rng;
 
 // TODO check logic for bsc chain
 pub fn calculate_next_block_base_fee(gas_used: U256, gas_limit: U256, base_fee_per_gas: U256) -> U256 {

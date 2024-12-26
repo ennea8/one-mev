@@ -1,43 +1,27 @@
-use alloy_provider::ext::DebugApi;
-use anyhow::{anyhow, ensure, Error, Result};
+use anyhow::Result;
 use dashmap::DashMap;
-use serde::{Deserialize, Serialize};
-use std::fs;
-use std::{collections::HashMap, str::FromStr, sync::Arc};
+use std::sync::Arc;
 use tokio::sync::broadcast::{self, Sender};
 
 use alloy::pubsub::PubSubFrontend;
 use alloy::{
-    primitives::{utils::parse_ether, Address, Bytes, TxHash, I256, U128, U256, U64},
+    primitives::{TxHash, U256},
     providers::Provider,
-    rpc::types::eth::{Block, Log, Transaction},
-    rpc::types::trace::parity::TraceType,
 };
-use alloy_eips::eip2930::AccessList;
-use alloy_eips::{BlockId, BlockNumberOrTag};
-use alloy_primitives::BlockNumber;
+use alloy_eips::BlockNumberOrTag;
 use alloy_provider::RootProvider;
-use alloy_transport_ws::WsConnect;
 use bounded_vec_deque::BoundedVecDeque;
 
 //revm
-use revm::db::{CacheDB, EmptyDB};
-use revm::primitives::Bytecode;
 
-use crate::abi::IOne;
 use crate::arbitrage::appetizer::appetizer;
-use crate::arbitrage::config::constants::ethereum::weth_addr;
-use crate::arbitrage::config::constants::{OWNER_ADDRESS, REVM_ONE_ADDRESS, REVM_ONE_SIMULATOR_ADDRESS};
-use crate::arbitrage::execution::Executor;
 use crate::arbitrage::main_dish::{main_dish, main_dish_on_new_block};
-use crate::arbitrage::pools::{load_pools, PoolManager};
+use crate::arbitrage::pools::load_pools;
 use crate::arbitrage::simulation::create_evm_factory;
-use crate::arbitrage::types::{ActionEvent, BackrunAction};
-use crate::arbitrage::types::{Arbitrage, One, Piece};
-use crate::arbitrage::types::{Event, NewBlock, NewPendingTx, PendingTxInfo};
-use crate::common::bytecode::{ONE_BYTECODE, ONE_SIMULATOR_BYTECODE};
-use crate::common::config::{get_app_config, get_global_config};
-use crate::simulation::simulator::{Simulator, SimulatorFactory, Tx, TxResult, VictimTx};
+use crate::arbitrage::types::ActionEvent;
+use crate::arbitrage::types::Piece;
+use crate::arbitrage::types::{Event, NewBlock, PendingTxInfo};
+use crate::simulation::simulator::VictimTx;
 
 pub async fn event_handler(
     provider: Arc<RootProvider<PubSubFrontend>>,
@@ -60,7 +44,7 @@ pub async fn event_handler(
 
     info!("pools loaded len: {:?}", poolManager.pools.len());
 
-    let mut pending_txs: DashMap<TxHash, PendingTxInfo> = DashMap::new();
+    let pending_txs: DashMap<TxHash, PendingTxInfo> = DashMap::new();
     let mut promising_pieces: DashMap<TxHash, Vec<Piece>> = DashMap::new(); // support  muti vic tx  // TODO 多 middle tx支持
     let mut simulated_one_ids: BoundedVecDeque<String> = BoundedVecDeque::new(30);
 

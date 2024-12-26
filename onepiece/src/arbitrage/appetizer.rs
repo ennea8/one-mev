@@ -1,39 +1,18 @@
-use alloy_provider::ext::DebugApi;
-use anyhow::{anyhow, ensure, Error, Result};
+use anyhow::{anyhow, Result};
 use dashmap::DashMap;
-use serde::{Deserialize, Serialize};
-use std::fs;
-use std::{collections::HashMap, str::FromStr, sync::Arc};
-use tokio::sync::broadcast::{self, Sender};
+use std::sync::Arc;
 
-use alloy::pubsub::PubSubFrontend;
 use alloy::{
-    primitives::{utils::parse_ether, Address, Bytes, TxHash, I256, U128, U256, U64},
+    primitives::{TxHash, I256, U256},
     providers::Provider,
-    rpc::types::eth::{Block, Log, Transaction},
-    rpc::types::trace::parity::TraceType,
 };
-use alloy_eips::eip2930::AccessList;
-use alloy_eips::{BlockId, BlockNumberOrTag};
-use alloy_primitives::BlockNumber;
-use alloy_provider::RootProvider;
-use alloy_transport_ws::WsConnect;
 
 //revm
-use revm::db::{CacheDB, EmptyDB};
-use revm::primitives::Bytecode;
 
-use crate::abi::IOne;
-use crate::arbitrage::config::constants::ethereum::weth_addr;
-use crate::arbitrage::config::constants::{OWNER_ADDRESS, REVM_ONE_ADDRESS, REVM_ONE_SIMULATOR_ADDRESS};
-use crate::arbitrage::execution::Executor;
-use crate::arbitrage::pools::{load_pools, PoolManager};
-use crate::arbitrage::types::{ActionEvent, BackrunAction};
-use crate::arbitrage::types::{Arbitrage, One, Piece};
-use crate::arbitrage::types::{Event, NewBlock, NewPendingTx, PendingTxInfo, SwapInfo};
-use crate::common::bytecode::{ONE_BYTECODE, ONE_SIMULATOR_BYTECODE};
-use crate::common::config::{get_app_config, get_global_config};
-use crate::simulation::simulator::{Simulator, SimulatorFactory, Tx, TxResult, VictimTx};
+use crate::arbitrage::pools::PoolManager;
+use crate::arbitrage::types::{Arbitrage, Piece};
+use crate::arbitrage::types::{NewBlock, SwapInfo};
+use crate::simulation::simulator::{SimulatorFactory, Tx, VictimTx};
 
 pub async fn appetizer(
     evm_factory: Arc<SimulatorFactory>,

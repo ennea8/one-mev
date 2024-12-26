@@ -1,8 +1,6 @@
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::{Address, U128, U256, U64},
-    providers::Provider,
-    rpc::types::eth::{Block, Filter, Log, Transaction},
+    primitives::U256,
+    rpc::types::eth::Transaction,
 };
 
 #[derive(Default, Debug, Clone)]

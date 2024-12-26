@@ -1,19 +1,15 @@
 use anyhow::Result;
 use std::sync::Arc;
 
-use futures_util::StreamExt;
 use tokio::sync::broadcast::{self, Sender};
 use tokio::task::JoinSet;
 
-use tracing::{debug, error, info, level_filters::LevelFilter};
-use tracing_subscriber::EnvFilter;
+use tracing::{error, info};
 
 use alloy::rpc::client::WsConnect;
 use alloy_provider::{Provider, ProviderBuilder};
 
 use one_common::{init_logs_v2, print_banner};
-use one_config::Config;
-use one_evm::{config, evm::EvmSimulator};
 
 use onepiece::arbitrage::strategy::event_handler;
 use onepiece::arbitrage::execution::action_handler;
