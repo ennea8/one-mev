@@ -1,0 +1,28 @@
+/target
+/.idea
+
+.DS_Store
+*_cache*
+*_local*
+/target*
+
+/.key
+/.keystore
+
+# Compiler files
+cache/
+out/
+lib/
+
+# Docs
+docs/
+
+# Dotenv file
+/.env*
+.env
+
+/.history
+/.data
+.logs
+*.db
+*.data
