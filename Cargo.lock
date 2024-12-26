@@ -4199,6 +4199,49 @@ dependencies = [
 ]
 
 [[package]]
+name = "one-evm"
+version = "0.1.0"
+dependencies = [
+ "alloy",
+ "alloy-contract",
+ "alloy-primitives 0.7.7",
+ "alloy-provider",
+ "alloy-signer-local",
+ "alloy-sol-macro",
+ "alloy-sol-types",
+ "alloy-transport-http",
+ "anyhow",
+ "cacache",
+ "eyre",
+ "futures",
+ "hashbrown 0.14.5",
+ "lazy_static",
+ "reqwest 0.12.9",
+ "revm",
+ "thiserror 1.0.69",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "one-flashbots"
+version = "0.1.0"
+dependencies = [
+ "alloy",
+ "async-trait",
+ "dotenv",
+ "futures",
+ "hyper 1.5.2",
+ "pin-project 1.1.7",
+ "reqwest 0.12.9",
+ "serde_json",
+ "tokio",
+ "tower",
+ "url",
+]
+
+[[package]]
 name = "one-key"
 version = "0.2.0"
 

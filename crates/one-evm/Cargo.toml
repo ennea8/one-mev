@@ -1,0 +1,34 @@
+[package]
+name = "one-evm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+revm={workspace = true}
+
+
+alloy= {workspace = true}
+alloy-transport-http={workspace = true}
+alloy-primitives.workspace = true
+alloy-sol-macro.workspace = true
+alloy-sol-types.workspace = true
+alloy-contract.workspace = true
+alloy-provider.workspace = true
+alloy-signer-local.workspace = true
+
+reqwest={workspace = true}
+
+tracing={workspace = true}
+tracing-subscriber = {workspace = true}
+
+anyhow={workspace = true}
+tokio={workspace = true}
+
+hashbrown={workspace = true}
+futures={workspace = true}
+eyre={workspace = true}
+thiserror={workspace = true}
+cacache={workspace = true}
+
+lazy_static.workspace = true

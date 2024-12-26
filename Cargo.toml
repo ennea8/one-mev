@@ -3,6 +3,8 @@
 members = [ 
   "crates/one-common",
   "crates/one-config",
+  "crates/one-evm",
+  "crates/one-flashbots",
   "onepiece"
 ]
 
@@ -49,7 +51,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 one-common = { path = "crates/one-common" }
 one-config = { path = "crates/one-config" }
 one-flashbots = { path = "crates/one-flashbots" }
-
+one-evm = { path = "crates/one-evm" }
 one-key = { path = ".key" }
 
 
