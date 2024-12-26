@@ -4,9 +4,3 @@
 [submodule "submodules/revm"]
 	path = submodules/revm
 	url = https://github.com/ennea8/revm.git
-[submodule "submodules/tower"]
-	path = submodules/tower
-	url = https://github.com/ennea8/tower.git
-[submodule "submodules/amms"]
-	path = submodules/amms
-	url = git@github.com:ennea8/amms-rs.git
