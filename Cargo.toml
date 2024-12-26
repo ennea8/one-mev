@@ -5,7 +5,8 @@ members = [
   "crates/one-config",
   "crates/one-evm",
   "crates/one-flashbots",
-  "onepiece"
+  "onepiece",
+  ".key", 
 ]
 
 resolver = "2"

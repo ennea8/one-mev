@@ -4276,6 +4276,8 @@ dependencies = [
  "once_cell",
  "one-common",
  "one-config",
+ "one-evm",
+ "one-flashbots",
  "rand",
  "reqwest 0.12.9",
  "revm",

@@ -6,8 +6,8 @@ edition = "2021"
 [dependencies]
 one-common.workspace= true
 one-config.workspace= true
-# one-flashbots={workspace= true, features = ["reqwest"]}
-# one-evm.workspace= true
+one-flashbots={workspace= true, features = ["reqwest"]}
+one-evm.workspace= true
 # one-engine.workspace = true
 
 revm.workspace = true
