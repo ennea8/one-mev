@@ -1,12 +1,62 @@
 [package]
 name = "onepiece"
-version.workspace = true
-edition.workspace = true
-rust-version.workspace = true
-authors.workspace = true
-license.workspace = true
-homepage.workspace = true
-repository.workspace = true
-exclude.workspace = true
+version = "0.1.0"
+edition = "2021"
 
 [dependencies]
+one-common.workspace= true
+one-config.workspace= true
+# one-flashbots={workspace= true, features = ["reqwest"]}
+# one-evm.workspace= true
+# one-engine.workspace = true
+
+revm.workspace = true
+
+
+alloy.workspace = true
+alloy-transport-http.workspace = true
+alloy-primitives.workspace = true
+alloy-sol-macro.workspace = true
+alloy-sol-types.workspace = true
+alloy-contract.workspace = true
+alloy-provider.workspace = true
+alloy-signer-local.workspace = true
+alloy-transport-ws.workspace = true
+alloy-eips.workspace = true
+
+reqwest.workspace = true
+
+tracing.workspace = true
+tracing-subscriber.workspace = true
+log.workspace = true
+tracing-appender.workspace = true
+
+anyhow.workspace = true
+tokio.workspace = true
+futures-util.workspace = true
+
+hashbrown.workspace = true
+futures.workspace = true
+eyre.workspace = true
+thiserror.workspace = true
+cacache.workspace = true
+
+lazy_static.workspace = true
+dashmap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+dotenv.workspace = true
+rand.workspace = true
+bounded-vec-deque = "0.1.1"
+
+hex.workspace= true
+url.workspace = true
+once_cell.workspace=true
+
+async-trait.workspace = true
+colored.workspace = true
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+

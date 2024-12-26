@@ -1,6 +1,8 @@
 [workspace]
 
-members = [
+members = [ 
+  "crates/one-common",
+  "crates/one-config",
   "onepiece"
 ]
 
@@ -44,6 +46,10 @@ rustdoc-args = ["--cfg", "docsrs"]
 [workspace.dependencies]
 
 # one
+one-common = { path = "crates/one-common" }
+one-config = { path = "crates/one-config" }
+one-key = { path = ".key" }
+
 
 # common
 anyhow = "1.0.86"
@@ -55,8 +61,8 @@ env_logger = "0.11.1"
 log = "0.4.19"
 chrono = "0.4.26"
 rayon = "1.8.1"
-serde = "1.0.203"
-serde_json = "1.0.119"
+# serde = "1.0.203"
+# serde_json = "1.0.119"
 lazy_static = "1.4.0"
 rand = "0.8.5"
 num_cpus = "1.16.0"
@@ -92,3 +98,175 @@ futures = "0.3"
 futures-util = "0.3"
 futures-executor = "0.3"
 futures-utils-wasm = "0.1"
+
+
+# revm
+revm = { version = "12.1.0", path = "submodules/revm/crates/revm", features = [
+    "std",
+    "secp256k1",
+    "blst",
+    "optional_balance_check",
+    "optional_block_gas_limit",
+    "optional_no_base_fee",
+], default-features = false }
+
+revm-primitives = { version = "5.0.0", features = [
+    "std",
+], default-features = false }
+revm-inspectors = "0.5.1"
+
+# alloy dependencies
+alloy-core = "0.7.1"
+alloy-chains = "0.1.23"
+alloy-primitives = { version = "0.7.7", features = ["rand"] }
+alloy-dyn-abi = { version = "0.7.7", features = ["std","eip712"] }
+alloy-sol-types = { version = "0.7.7", features = ["json"] }
+alloy-sol-macro = { version = "0.7.7", features = ["json"] }
+alloy-rlp = "0.3.7"
+alloy-trie = "0.4.1"
+alloy-json-abi = { version = "0.7.7", default-features = false }
+
+
+# alloy
+alloy = { path = "submodules/alloy/crates/alloy", features = [
+    "full",
+    "serde",
+    "consensus",
+    "node-bindings",
+    "rpc-types-anvil",
+    "rpc-types-trace",
+    "json-rpc",
+    "rpc-types-json",
+    "rand",
+    "rlp",
+
+    "rpc",
+    "rpc-client",
+    "rpc-types-mev",
+    "network",
+    "providers",
+    "transports",
+    "transport-http",
+    "signers",
+    "reqwest-rustls-tls",
+] }
+alloy-serde = { version = "0.2", path = "submodules/alloy/crates/serde", default-features = false }
+alloy-contract = { version = "0.2", path = "submodules/alloy/crates/contract", default-features = false }
+alloy-consensus = { version = "0.2", path = "submodules/alloy/crates/consensus", default-features = false }
+alloy-eips = { version = "0.2", path = "submodules/alloy/crates/eips", default-features = false }
+
+
+alloy-provider = { version = "0.2", path = "submodules/alloy/crates/provider", features = [
+    "reqwest",
+    "pubsub",
+    "ws",
+    "ipc",
+    "debug-api",
+    "trace-api",
+    "anvil-node",
+    "anvil-api",
+] }
+alloy-json-rpc = { version = "0.2", path = "submodules/alloy/crates/json-rpc", default-features = false }
+alloy-network = { version = "0.2", path = "submodules/alloy/crates/network", default-features = false }
+alloy-node-bindings = { version = "0.2", path = "submodules/alloy/crates/node-bindings", default-features = false }
+alloy-rpc-client = { version = "0.2", path = "submodules/alloy/crates/rpc-client", features = [
+    "pubsub",
+    "ipc",
+    "ws",
+    "reqwest",
+] }
+alloy-rpc-types = { version = "0.2", path = "submodules/alloy/crates/rpc-types", default-features = false }
+alloy-rpc-types-eth = { version = "0.2", path = "submodules/alloy/crates/rpc-types-eth", default-features = false }
+alloy-rpc-types-anvil = { version = "0.2", path = "submodules/alloy/crates/rpc-types-anvil", default-features = false }
+alloy-rpc-types-beacon = { version = "0.2", path = "submodules/alloy/crates/rpc-types-beacon", default-features = false }
+alloy-rpc-types-trace = { version = "0.2", path = "submodules/alloy/crates/rpc-types-trace", default-features = false }
+alloy-rpc-types-engine = { version = "0.2", path = "submodules/alloy/crates/rpc-types-engine", default-features = false }
+alloy-transport = { version = "0.2", path = "submodules/alloy/crates/transport", default-features = false }
+alloy-transport-ipc = { version = "0.2", path = "submodules/alloy/crates/transport-ipc", default-features = false }
+alloy-transport-ws = { version = "0.2", path = "submodules/alloy/crates/transport-ws", default-features = false }
+alloy-transport-http = { version = "0.2", path = "submodules/alloy/crates/transport-http", default-features = false }
+alloy-pubsub = { version = "0.2", path = "submodules/alloy/crates/pubsub", default-features = false }
+alloy-signer = { version = "0.2", path = "submodules/alloy/crates/signer", default-features = false }
+alloy-signer-local = { version = "0.2", path = "submodules/alloy/crates/signer-local", default-features = false }
+
+alloy-genesis = { version = "0.2", path = "submodules/alloy/crates/genesis", default-features = false }
+alloy-signer-aws = { version = "0.2", path = "submodules/alloy/crates/signer-aws", default-features = false }
+alloy-signer-gcp = { version = "0.2", path = "submodules/alloy/crates/signer-gcp", default-features = false }
+alloy-signer-ledger = { version = "0.2", path = "submodules/alloy/crates/signer-ledger", default-features = false }
+alloy-signer-trezor = { version = "0.2", path = "submodules/alloy/crates/signer-trezor", default-features = false }
+## for local alloy
+alloy-rpc-types-admin = { version = "0.2", path = "submodules/alloy/crates/rpc-types-admin", default-features = false }
+alloy-rpc-types-txpool = { version = "0.2", path = "submodules/alloy/crates/rpc-types-txpool", default-features = false }
+alloy-eip7547 = { version = "0.2", path = "submodules/alloy/crates/eip7547", default-features = false }
+alloy-rpc-types-mev = { version = "0.2", path = "submodules/alloy/crates/rpc-types-mev", default-features = false }
+
+# tower
+# tower = { version = "0.4", path="submodules/tower/tower", features = ["util"] }
+# tower-layer = { version = "0.3.1", path = "submodules/tower/tower-layer" }
+# tower-service = { version = "0.3.1", path = "submodules/tower/tower-service" }
+tower = { version = "0.4"}
+tower-layer = { version = "0.3.1"}
+tower-service = { version = "0.3.1"}
+
+# amm
+amms= { version = "0.6", path = "submodules/amms"}
+
+## ########################################
+## for local alloy
+
+## misc-testing
+arbitrary = "1.3"
+assert_matches = "1.5"
+serial_test = "3.0"
+similar-asserts = "1.5"
+tempfile = "3.10"
+
+# crypto
+c-kzg = { version = "1.0", default-features = false }
+elliptic-curve = { version = "0.13", default-features = false }
+# k256 = { version = "0.13", default-features = false, features = ["ecdsa"] }
+# sha2 = { version = "0.10", default-features = false }
+spki = { version = "0.7", default-features = false }
+
+# misc
+auto_impl = "1.2"
+base64 = "0.22"
+bimap = "0.6"
+home = "0.5"
+itertools = "0.13"
+once_cell = { version = "1.19", default-features = false }
+pin-project = "1.1"
+# rand = "0.8"
+# reqwest = { version = "0.12", default-features = false }
+semver = "1.0"
+# thiserror = "1.0"
+thiserror-no-std = "2.0.2"
+# url = "2.5"
+derive_more = "0.99.17"
+
+# ethereum
+ethereum_ssz_derive = "0.5"
+ethereum_ssz = "0.5"
+
+
+hyper = { version = "1.2", default-features = false }
+hyper-util = "0.1"
+http-body-util = "0.1"
+# tokio = "1"
+tokio-util = "0.7"
+# tokio-stream = "0.1"
+rustls = { version = "0.23", default-features = false, features = [
+    "std",
+    "tls12",
+] }
+tokio-test = "0.4"
+tokio-tungstenite = "0.23"
+# tower = { version = "0.4", features = ["util"] }
+
+# serde
+serde = { version = "1.0", default-features = false, features = [
+    "derive",
+    "alloc",
+] }
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
+serde_with = "3.3.0"
