@@ -1,0 +1,94 @@
+[workspace]
+
+members = [
+  "onepiece"
+]
+
+resolver = "2"
+default-members = ["onepiece"]
+
+[workspace.package]
+version = "0.2.0" # !!![currently should be synced with the local alloy version]
+edition = "2021"
+rust-version = "1.76"
+authors = ["Ennea8"]
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/ennea8/one-mev"
+repository = "https://github.com/ennea8/one-mev"
+exclude = ["benches/", "tests/"]
+
+[workspace.lints.rust]
+missing-debug-implementations = "warn"
+missing-docs = "warn"
+unreachable-pub = "warn"
+unused-must-use = "deny"
+rust-2018-idioms = "deny"
+unnameable-types = "warn"
+
+[workspace.lints.rustdoc]
+all = "warn"
+
+[workspace.lints.clippy]
+all = "warn"
+missing-const-for-fn = "warn"
+use-self = "warn"
+option-if-let-else = "warn"
+redundant-clone = "warn"
+
+
+[workspace.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+
+[workspace.dependencies]
+
+# one
+
+# common
+anyhow = "1.0.86"
+tokio = { version = "1.37.0", features = ["full"] }
+tokio-stream = "0.1.15"
+tonic = "0.12"
+eyre = "0.6.12"
+env_logger = "0.11.1"
+log = "0.4.19"
+chrono = "0.4.26"
+rayon = "1.8.1"
+serde = "1.0.203"
+serde_json = "1.0.119"
+lazy_static = "1.4.0"
+rand = "0.8.5"
+num_cpus = "1.16.0"
+hex = "0.4.3"
+sha2 = "0.10.7"
+aes = "0.8.3"
+toml = "^0.8.12"
+url = "2.4.1"
+reqwest = { version = "0.12.4", features = ["trust-dns", "json", "rustls-tls"], default-features = false }
+clap = { version = "4.5.4", features = ["derive"] }
+strum = { version = "0.26.2" }
+strum_macros = { version = "0.26.2" }
+k256 = "0.13.3"
+thiserror = "^1.0.61"
+colored = "2.0.4"
+hashbrown = "0.14.5"
+dashmap = "6.0.1"
+eth-keystore = "0.5.0"
+dotenv = "0.15.0"
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["std", "env-filter"] }
+tracing-appender = "0.2"
+
+cacache = { version = "12.0.0", default-features = false, features = [
+    "tokio-runtime",
+    "mmap",
+] }
+
+# async
+async-trait = "0.1.80"
+futures = "0.3"
+futures-util = "0.3"
+futures-executor = "0.3"
+futures-utils-wasm = "0.1"
