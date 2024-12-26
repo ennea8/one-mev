@@ -1,0 +1,27 @@
+[package]
+name = "one-config"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+
+anyhow.workspace = true
+reqwest.workspace = true
+eth-keystore.workspace = true
+hex.workspace = true
+
+alloy.workspace = true
+alloy-transport-http.workspace = true
+alloy-primitives.workspace = true
+alloy-signer-local.workspace = true
+
+one-key.workspace = true
+
+[[bin]]
+name = "create_xor_file"
+path = "bin/create_xor_file.rs"
+
+
+[[bin]]
+name = "read_xor_file"
+path = "bin/read_xor_file.rs"
