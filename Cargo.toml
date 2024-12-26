@@ -48,6 +48,8 @@ rustdoc-args = ["--cfg", "docsrs"]
 # one
 one-common = { path = "crates/one-common" }
 one-config = { path = "crates/one-config" }
+one-flashbots = { path = "crates/one-flashbots" }
+
 one-key = { path = ".key" }
 
 

@@ -1,0 +1,47 @@
+[package]
+name = "one-flashbots"
+version = "0.1.0"
+authors = ["leruaa"]
+license = "MIT"
+edition = "2021"
+documentation = "https://docs.rs/alloy-mev"
+description = """
+A clone from alloy-mev(https://github.com/leruaa/alloy-mev)
+Easily send transaction bundles using Alloy.
+"""
+
+[features]
+default = ["reqwest"]
+reqwest = ["dep:reqwest"]
+
+[dependencies]
+alloy = { version = "0.2.0", workspace=true, features = [
+    "rpc",
+    "rpc-client",
+    "rpc-types-mev",
+    "json-rpc",
+    "network",
+    "providers",
+    "transports",
+    "transport-http",
+    "signers",
+] }
+hyper = { version = "1.2",  features = ["client"], optional = true }
+tower = {version = "0.4" , workspace=true}
+futures = { version ="0.3", workspace=true} 
+reqwest = { version = "0.12", workspace=true,  optional = true }
+
+## customize version
+pin-project = "1.1.5"
+url = "2.5"
+serde_json = "1.0"
+async-trait = "0.1"
+
+[dev-dependencies]
+dotenv = "0.15"
+tokio = { version = "1", features = ["rt", "macros"] }
+alloy = { version = "0.2.0", workspace=true, features = [
+    "rpc-client",
+    "consensus",
+    "signer-local",
+] }
